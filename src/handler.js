@@ -1,11 +1,12 @@
+import { createIssue } from "./lib";
 import { webhook } from "./__mocks__/webhook";
 
 export const localPayload = async () => {
   const event = await webhook;
-  return handle(event);
+  return handlePush(event);
 };
 
-export const handle = async event => {
+export const handleCreate = async event => {
   /*
     HANDLE CREATE EVENT
     -------------------
@@ -15,8 +16,13 @@ export const handle = async event => {
     4. Iterate through list and run analysis on dependency and version if it has changed
     5. Store results in DB for repo and dependency
     6. Open issues for suspect dependencies if they have not been flagged before  
+  */
 
+  return event;
+};
 
+export const handlePush = async event => {
+  /*
     HANDLE PUSH EVENT
     -----------------
     1. Check if packages.json is in added or modified of push event
@@ -26,5 +32,6 @@ export const handle = async event => {
     5. Store results in DB for repo and dependency
     6. Open issues for suspect dependencies if they have not been flagged before  
   */
+  await createIssue(event);
   return event;
 };

@@ -1,12 +1,23 @@
 require = require("esm")(module); // eslint-disable-line no-global-assign
-require("dotenv-safe").config({ allowEmptyValues: true });
 
-const handle = require("./handler").handle;
+const handleCreate = require("./handler").handleCreate;
+const handlePush = require("./handler").handlePush;
 const localPayload = require("./handler").localPayload;
 
 const scanPackages = async (request, response) => {
-  await handle(request);
-  response.status(200).send("Done");
+  switch (request.headers["x-github-event"]) {
+    case "create":
+      await handleCreate(request);
+      response.status(200).send("Processed create.");
+      break;
+    case "push":
+      await handlePush(request);
+      response.status(200).send("Processed push event request.");
+      break;
+    default:
+      response.status(200).send("No action taken.");
+      break;
+  }
 };
 
 // used for local testing
