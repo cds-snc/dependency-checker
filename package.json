@@ -1,0 +1,60 @@
+{
+  "name": "dependency-checker",
+  "version": "1.0.0",
+  "description": "Checks node dependencies and makes a security recommendation",
+  "main": "src/index.js",
+  "scripts": {
+    "dev": "NODE_ENV=dev node src/index.js --mockPayload",
+    "lint": "eslint src/*.js",
+    "test": "jest"
+  },
+  "lint-staged": {
+    "*.js": [
+      "eslint --fix",
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm test && lint-staged",
+      "pre-push": "npm test"
+    }
+  },
+  "dependencies": {
+    "@octokit/rest": "^16.2.0",
+    "dotenv-safe": "^6.1.0",
+    "esm": "^3.0.84"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.2.2",
+    "babel-core": "7.0.0-bridge.0",
+    "@babel/preset-env": "^7.2.3",
+    "babel-eslint": "^10.0.1",
+    "babel-jest": "^23.6.0",
+    "body-parser": "^1.18.3",
+    "eslint": "^5.11.1",
+    "eslint-config-prettier": "^3.3.0",
+    "eslint-config-standard": "^12.0.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-jest": "^22.1.2",
+    "eslint-plugin-node": "^8.0.0",
+    "eslint-plugin-promise": "^4.0.1",
+    "eslint-plugin-standard": "^4.0.0",
+    "husky": "^1.2.1",
+    "jest": "^23.6.0",
+    "lint-staged": "^8.1.0",
+    "minimist": "^1.2.0",
+    "prettier": "^1.15.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cds-snc/dependency-checker.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cds-snc/dependency-checker/issues"
+  },
+  "homepage": "https://github.com/cds-snc/dependency-checker#readme"
+}
