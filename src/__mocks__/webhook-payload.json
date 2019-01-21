@@ -186,5 +186,9 @@
     "received_events_url": "https://api.github.com/users/maxneuvians/received_events",
     "type": "User",
     "site_admin": false
+  },
+  "installation": {
+    "id": 605170,
+    "node_id": "MDIzOkludGVncmF0aW9uSW5zdGFsbGF0aW9uNTk3ODEz"
   }
 }
