@@ -1,0 +1,38 @@
+{
+  "name": "mock-package.json",
+  "version": "1.0.0",
+  "description": "Checks node dependencies and makes a security recommendation",
+  "main": "src/index.js",
+  "scripts": {
+    "dev": "NODE_ENV=dev node src/index.js --mockPayload",
+    "lint": "eslint src/*.js",
+    "test": "jest"
+  },
+  "lint-staged": {
+    "*.js": ["eslint --fix", "prettier --write", "git add"]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm test && lint-staged",
+      "pre-push": "npm test"
+    }
+  },
+  "dependencies": {
+    "esm": "^3.0.84",
+    "jsonwebtoken": "^8.4.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.2.2",
+    "@babel/preset-env": "^7.2.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "..."
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "..."
+  },
+  "homepage": "..."
+}
