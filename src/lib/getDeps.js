@@ -1,4 +1,5 @@
 import { getFile, fetchPackageData } from "./getFile";
+import { getPackagePath } from "./getPackagePath";
 
 export const getPackageJson = async (path = "") => {
   if (!path) return false;
@@ -29,4 +30,10 @@ export const getDeps = async (path, local = false) => {
     return false;
   }
   return { ...obj.dependencies, ...obj.devDependencies };
+};
+
+export const getRepoDependencies = async payload => {
+  const path = await getPackagePath(undefined, payload);
+  const result = await getDeps(path);
+  return result;
 };
