@@ -25,7 +25,8 @@
     "@octokit/rest": "^16.2.0",
     "dotenv-safe": "^6.1.0",
     "esm": "^3.0.84",
-    "jsonwebtoken": "^8.4.0"
+    "jsonwebtoken": "^8.4.0",
+    "node-fetch": "^2.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.2.2",
