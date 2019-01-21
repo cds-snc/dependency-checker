@@ -1,4 +1,4 @@
-import { getFile } from "./getFile";
+import { getFile, fetchPackageData } from "./getFile";
 
 export const getPackageJson = async (path = "") => {
   if (!path) return false;
@@ -11,13 +11,22 @@ export const getPackageJson = async (path = "") => {
   }
 };
 
-export const getDeps = async path => {
-  console.log(path);
-  const obj = await getPackageJson(path);
+export const getRemotePackageJson = async path => {
+  const result = await fetchPackageData(path);
+  return result;
+};
+
+export const getDeps = async (path, local = false) => {
+  let obj = {};
+
+  if (local) {
+    obj = await getPackageJson(path);
+  } else {
+    obj = await getRemotePackageJson(path);
+  }
 
   if (!obj || !obj.dependencies || !obj.devDependencies) {
     return false;
   }
-
   return { ...obj.dependencies, ...obj.devDependencies };
 };

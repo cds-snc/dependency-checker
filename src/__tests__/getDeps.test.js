@@ -1,4 +1,6 @@
 import { getPackageJson, getDeps } from "../lib/getDeps";
+import { getPackagePath } from "../lib/getPackagePath";
+import { webhook } from "../__mocks__/webhook";
 import path from "path";
 
 const filePath = (filename = "package-json.json") => {
@@ -21,8 +23,8 @@ test("returns json and has name prop", async () => {
   expect(checkResult).toEqual(true);
 });
 
-test("can get dependencies", async () => {
-  const result = await getDeps(filePath());
+test("can get local dependencies", async () => {
+  const result = await getDeps(filePath(), true);
 
   let checkResult = false;
 
@@ -31,6 +33,20 @@ test("can get dependencies", async () => {
     (result.esm && result.esm === "^3.0.84") &&
     (result["@babel/core"] && result["@babel/core"] === "^7.2.2")
   ) {
+    checkResult = true;
+  }
+
+  expect(checkResult).toEqual(true);
+});
+
+test("can get remote package.json dependencies", async () => {
+  const payload = await webhook;
+  const path = await getPackagePath(undefined, payload);
+  const result = await getDeps(path);
+
+  let checkResult = false;
+
+  if (result && result.react) {
     checkResult = true;
   }
 
