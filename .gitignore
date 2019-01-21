@@ -63,3 +63,5 @@ typings/
 *.swp
 .DS_Store
 github.pem
+firestore.json
+
