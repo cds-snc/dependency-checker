@@ -7,7 +7,7 @@ export const toJS = async () => {
   try {
     return JSON.parse(result);
   } catch (e) {
-    console.log(e.message);
+    console.log("failed to parse payload", e.message);
     return {};
   }
 };

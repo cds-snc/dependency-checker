@@ -1,4 +1,9 @@
-import { getPackageJson, getDeps } from "../lib/getDeps";
+import {
+  getPackageJson,
+  getDeps,
+  getRepoDependencies,
+  getRemotePackageJson
+} from "../lib/getDeps";
 import { getPackagePath } from "../lib/getPackagePath";
 import { webhook } from "../__mocks__/webhook";
 import path from "path";
@@ -51,4 +56,27 @@ test("can get remote package.json dependencies", async () => {
   }
 
   expect(checkResult).toEqual(true);
+});
+
+test("can get repo package.json dependencies", async () => {
+  const payload = await webhook;
+  const result = await getRepoDependencies(payload);
+
+  let checkResult = false;
+
+  if (result && result.react) {
+    checkResult = true;
+  }
+
+  expect(checkResult).toEqual(true);
+});
+
+test("handles bad fetch", async () => {
+  try {
+    await getRemotePackageJson("http://example.com");
+  } catch (e) {
+    expect(e.message).toBe(
+      "invalid json response body at http://example.com/ reason: Unexpected token < in JSON at position 0"
+    );
+  }
 });
