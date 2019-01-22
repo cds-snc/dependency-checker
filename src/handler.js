@@ -1,8 +1,14 @@
 import { getRepoDependencies } from "./lib";
-import { webhook } from "./__mocks__/webhook";
+import { createWebhook } from "./__mocks__/createWebhook";
+import { pushWebhook } from "./__mocks__/pushWebhook";
 
-export const localPayload = async () => {
-  const event = await webhook;
+export const localCreatePayload = async () => {
+  const event = await createWebhook;
+  return handleCreate(event);
+};
+
+export const localPushPayload = async () => {
+  const event = await pushWebhook;
   return handlePush(event);
 };
 

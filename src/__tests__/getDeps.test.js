@@ -5,7 +5,7 @@ import {
   getRemotePackageJson
 } from "../lib/getDeps";
 import { getPackagePath } from "../lib/getPackagePath";
-import { webhook } from "../__mocks__/webhook";
+import { pushWebhook } from "../__mocks__/pushWebhook";
 import path from "path";
 
 const mockObj = {
@@ -73,7 +73,7 @@ test("can get local dependencies", async () => {
 });
 
 test("can get remote package.json dependencies", async () => {
-  const payload = await webhook;
+  const payload = await pushWebhook;
   const path = await getPackagePath(undefined, payload);
   const result = await getDeps(path);
 
@@ -87,7 +87,7 @@ test("can get remote package.json dependencies", async () => {
 });
 
 test("can get repo package.json dependencies", async () => {
-  const payload = await webhook;
+  const payload = await pushWebhook;
   const result = await getRepoDependencies(payload);
   let checkResult = false;
 

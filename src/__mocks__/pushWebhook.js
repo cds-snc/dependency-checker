@@ -2,7 +2,7 @@ import path from "path";
 import { getFile } from "../lib/getFile";
 
 export const toJS = async () => {
-  const file = path.resolve(__dirname, `webhook-payload.json`);
+  const file = path.resolve(__dirname, `push-payload.json`);
   const result = await getFile(file);
   try {
     return JSON.parse(result);
@@ -12,4 +12,4 @@ export const toJS = async () => {
   }
 };
 
-export const webhook = toJS();
+export const pushWebhook = toJS();
