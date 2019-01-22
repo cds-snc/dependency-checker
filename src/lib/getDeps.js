@@ -1,4 +1,5 @@
-import { getFile, fetchPackageData } from "./getFile";
+import { getFile } from "./getFile";
+import { fetchPackageData } from "./fetchPackageData";
 import { getPackagePath } from "./getPackagePath";
 
 export const getPackageJson = async (path = "") => {
@@ -27,7 +28,8 @@ export const getDeps = async (path, local = false) => {
   }
 
   if (!obj || !obj.dependencies || !obj.devDependencies) {
-    return false;
+    const objStr = JSON.stringify(obj);
+    throw new Error(`no packages found ${objStr}`);
   }
   return { ...obj.dependencies, ...obj.devDependencies };
 };
