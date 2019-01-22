@@ -3,9 +3,9 @@ import {
   getDeps,
   getRepoDependencies,
   getRemotePackageJson
-} from "../lib/getDeps";
-import { getPackagePath } from "../lib/getPackagePath";
-import { pushWebhook } from "../__mocks__/pushWebhook";
+} from "../../lib/getDeps";
+import { getPackagePath } from "../../lib/getPackagePath";
+import { pushWebhook } from "../../__mocks__/pushWebhook";
 import path from "path";
 
 const mockObj = {
@@ -23,8 +23,8 @@ const mockObj = {
   devDependencies: {}
 };
 
-jest.mock("../lib/fetchPackageData", () => {
-  const actualFetch = require.requireActual("../lib/fetchPackageData");
+jest.mock("../../lib/fetchPackageData", () => {
+  const actualFetch = require.requireActual("../../lib/fetchPackageData");
   return {
     ...actualFetch,
     fetchPackageData: jest.fn(async url => {
@@ -37,7 +37,7 @@ jest.mock("../lib/fetchPackageData", () => {
 });
 
 const filePath = (filename = "package-json.json") => {
-  return path.resolve(__dirname, `../__mocks__/${filename}`);
+  return path.resolve(__dirname, `../../__mocks__/${filename}`);
 };
 
 test("returns false if file path passed", async () => {
