@@ -2,7 +2,8 @@ require = require("esm")(module); // eslint-disable-line no-global-assign
 
 const handleCreate = require("./handler").handleCreate;
 const handlePush = require("./handler").handlePush;
-const localPayload = require("./handler").localPayload;
+const localCreatePayload = require("./handler").localCreatePayload;
+const localPushPayload = require("./handler").localPushPayload;
 
 const scanPackages = async (request, response) => {
   switch (request.headers["x-github-event"]) {
@@ -23,9 +24,13 @@ const scanPackages = async (request, response) => {
 // used for local testing
 (async () => {
   const argv = require("minimist")(process.argv.slice(2));
-  const { mockPayload } = argv;
-  if (mockPayload) {
-    const result = await localPayload();
+  const { mockCreatePayload, mockPushPayload } = argv;
+  if (mockPushPayload) {
+    const result = await localPushPayload();
+    console.log(result);
+  }
+  if (mockCreatePayload) {
+    const result = await localCreatePayload();
     console.log(result);
   }
 })();

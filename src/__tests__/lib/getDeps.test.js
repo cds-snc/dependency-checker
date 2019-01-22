@@ -3,9 +3,9 @@ import {
   getDeps,
   getRepoDependencies,
   getRemotePackageJson
-} from "../lib/getDeps";
-import { getPackagePath } from "../lib/getPackagePath";
-import { webhook } from "../__mocks__/webhook";
+} from "../../lib/getDeps";
+import { getPackagePath } from "../../lib/getPackagePath";
+import { pushWebhook } from "../../__mocks__/pushWebhook";
 import path from "path";
 
 const mockObj = {
@@ -23,8 +23,8 @@ const mockObj = {
   devDependencies: {}
 };
 
-jest.mock("../lib/fetchPackageData", () => {
-  const actualFetch = require.requireActual("../lib/fetchPackageData");
+jest.mock("../../lib/fetchPackageData", () => {
+  const actualFetch = require.requireActual("../../lib/fetchPackageData");
   return {
     ...actualFetch,
     fetchPackageData: jest.fn(async url => {
@@ -37,7 +37,7 @@ jest.mock("../lib/fetchPackageData", () => {
 });
 
 const filePath = (filename = "package-json.json") => {
-  return path.resolve(__dirname, `../__mocks__/${filename}`);
+  return path.resolve(__dirname, `../../__mocks__/${filename}`);
 };
 
 test("returns false if file path passed", async () => {
@@ -73,7 +73,7 @@ test("can get local dependencies", async () => {
 });
 
 test("can get remote package.json dependencies", async () => {
-  const payload = await webhook;
+  const payload = await pushWebhook;
   const path = await getPackagePath(undefined, payload);
   const result = await getDeps(path);
 
@@ -87,7 +87,7 @@ test("can get remote package.json dependencies", async () => {
 });
 
 test("can get repo package.json dependencies", async () => {
-  const payload = await webhook;
+  const payload = await pushWebhook;
   const result = await getRepoDependencies(payload);
   let checkResult = false;
 

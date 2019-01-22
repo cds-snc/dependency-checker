@@ -1,8 +1,14 @@
 import { getRepoDependencies } from "./lib";
-import { webhook } from "./__mocks__/webhook";
+import { createWebhook } from "./__mocks__/createWebhook";
+import { pushWebhook } from "./__mocks__/pushWebhook";
 
-export const localPayload = async () => {
-  const event = await webhook;
+export const localCreatePayload = async () => {
+  const event = await createWebhook;
+  return handleCreate(event);
+};
+
+export const localPushPayload = async () => {
+  const event = await pushWebhook;
   return handlePush(event);
 };
 
@@ -42,7 +48,9 @@ export const handlePush = async event => {
     // 2. If processing packages.json, collate dependendencies and devDependencies
     3. Pull data from DB per dependency and repo  on previous analysis
     4. Iterate through list and run analysis on dependency and version if it has changed
+
     5. Store results in DB for repo and dependency
+
     6. Open issues for suspect dependencies if they have not been flagged before  
   */
 

@@ -12,4 +12,4 @@ export const toJS = async () => {
   }
 };
 
-export const webhook = toJS();
+export const createWebhook = toJS();
