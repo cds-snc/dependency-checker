@@ -1,6 +1,13 @@
 import { pushWebhook } from "../../__mocks__/pushWebhook";
 import { createWebhook } from "../../__mocks__/createWebhook";
 import { getPackagePath, getPackageJsonFile } from "../../lib/getPackagePath";
+import { searchRepo } from "../../lib/searchRepo";
+
+jest.mock("../../lib/searchRepo", () => ({
+  searchRepo: jest.fn(async (octokit, body) => {
+    return ["package.json"];
+  })
+}));
 
 test("return a valid path", async () => {
   const payload = await pushWebhook;
@@ -20,5 +27,14 @@ test("can parse package.json from PR payload", async () => {
 test("can parse package.json create payload", async () => {
   const payload = await createWebhook;
   const result = await getPackageJsonFile(payload);
+  expect(searchRepo).toHaveBeenCalledTimes(1);
   expect(result).toEqual("package.json");
+});
+
+test("throws an error if cannot find any package.json", async () => {
+  try {
+    await getPackageJsonFile({});
+  } catch (e) {
+    expect(e);
+  }
 });
