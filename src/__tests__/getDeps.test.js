@@ -8,6 +8,34 @@ import { getPackagePath } from "../lib/getPackagePath";
 import { webhook } from "../__mocks__/webhook";
 import path from "path";
 
+const mockObj = {
+  name: "the-app",
+  version: "2.0.0",
+  license: "MIT",
+  dependencies: {
+    react: "^16.7.0",
+    "react-dom": "^16.7.0",
+    "react-scripts": "2.1.3"
+  },
+  scripts: {
+    start: "npm run build_it && node index.js"
+  },
+  devDependencies: {}
+};
+
+jest.mock("../lib/fetchPackageData", () => {
+  const actualFetch = require.requireActual("../lib/fetchPackageData");
+  return {
+    ...actualFetch,
+    fetchPackageData: jest.fn(async url => {
+      if (url === "http://example.com") {
+        throw new Error("bad request");
+      }
+      return mockObj;
+    })
+  };
+});
+
 const filePath = (filename = "package-json.json") => {
   return path.resolve(__dirname, `../__mocks__/${filename}`);
 };
@@ -61,7 +89,6 @@ test("can get remote package.json dependencies", async () => {
 test("can get repo package.json dependencies", async () => {
   const payload = await webhook;
   const result = await getRepoDependencies(payload);
-
   let checkResult = false;
 
   if (result && result.react) {
@@ -75,8 +102,6 @@ test("handles bad fetch", async () => {
   try {
     await getRemotePackageJson("http://example.com");
   } catch (e) {
-    expect(e.message).toBe(
-      "invalid json response body at http://example.com/ reason: Unexpected token < in JSON at position 0"
-    );
+    expect(e.message).toBe("bad request");
   }
 });
