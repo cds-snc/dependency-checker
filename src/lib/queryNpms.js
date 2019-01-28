@@ -1,4 +1,4 @@
-import { fetch } from "node-fetch";
+import {default as fetch} from "node-fetch";
 
 export const queryNpms = async name => {
   const path = `https://api.npms.io/v2/package/${encodeURIComponent(name)}`;
