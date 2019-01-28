@@ -26,7 +26,9 @@
     "@octokit/rest": "^16.2.0",
     "dotenv-safe": "^6.1.0",
     "esm": "^3.0.84",
+    "firebase-admin": "^6.5.1",
     "jsonwebtoken": "^8.4.0",
+    "mock-cloud-firestore": "^0.9.1",
     "node-fetch": "^2.3.0"
   },
   "devDependencies": {
