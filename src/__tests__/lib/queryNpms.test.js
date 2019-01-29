@@ -18,7 +18,7 @@ jest.mock("node-fetch", () => {
 });
 
 test("queries Npms for data about a package", async () => {
-  const result = await queryNpms("foo");
+  const result = await queryNpms("foo", fetch);
   expect(fetch).toHaveBeenCalledTimes(1);
   expect(result).toEqual({ score: { final: 1 } });
 });
