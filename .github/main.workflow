@@ -14,7 +14,6 @@ action "Test" {
   args = "test"
   env = {
     FIRESTORE_URL = "abcd"
-    GITHUB_PEM = "abcd"
     ISSUER_ID = "abcd"
   }
 }
