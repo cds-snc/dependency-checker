@@ -1,6 +1,7 @@
 import { getFile } from "./getFile";
 import { fetchPackageData } from "./fetchPackageData";
 import { getPackagePath } from "./getPackagePath";
+import { asyncForEach } from "./index";
 
 export const getPackageJson = async (path = "") => {
   if (!path) return false;
@@ -29,13 +30,19 @@ export const getDeps = async (path, local = false) => {
 
   if (!obj || !obj.dependencies || !obj.devDependencies) {
     const objStr = JSON.stringify(obj);
-    throw new Error(`no packages found ${objStr}`);
+    console.log(`no packages found ${objStr}`);
   }
   return { ...obj.dependencies, ...obj.devDependencies };
 };
 
 export const getRepoDependencies = async payload => {
-  const path = await getPackagePath(undefined, payload);
-  const result = await getDeps(path);
+  const paths = await getPackagePath(undefined, payload);
+  let result = {};
+
+  await asyncForEach(paths, async path => {
+    const deps = await getDeps(path);
+    result = { ...result, ...deps };
+  });
+
   return result;
 };

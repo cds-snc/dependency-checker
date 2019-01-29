@@ -89,6 +89,7 @@ test("can get remote package.json dependencies", async () => {
 test("can get repo package.json dependencies", async () => {
   const payload = await pushWebhook;
   const result = await getRepoDependencies(payload);
+
   let checkResult = false;
 
   if (result && result.react) {

@@ -1,7 +1,7 @@
 {
   "ref": "refs/heads/package-test",
-  "before": "d3dcf117499a2006af73294f368255e67f71795e",
-  "after": "1d82437635ad8d05e039b70bb17f60cb10774424",
+  "before": "ee5d56a8a69fd2e129feeaf54ee972f46cf7f301",
+  "after": "8c33ca3dad9cdfd05d684d762f6a471ede932790",
   "created": false,
   "deleted": false,
   "forced": false,
@@ -25,7 +25,7 @@
         "email": "max@neuvians.net",
         "username": "maxneuvians"
       },
-      "added": [],
+      "added": ["subapp/package.json"],
       "removed": [],
       "modified": ["package.json", "yarn.lock"]
     }

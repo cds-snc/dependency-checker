@@ -4,24 +4,24 @@ import octokit from "./index";
 export const getPackageJsonFile = async (payload = {}) => {
   if ((payload && !payload.commits) || (payload && !payload.commits.length)) {
     const paths = await searchRepo(octokit, payload);
-    return paths ? paths[0] : false;
+    return paths.length !== 0 ? paths : false;
   }
 
-  let result = false;
+  let results = [];
 
   payload.commits[payload.commits.length - 1].added.filter(item => {
     if (item.indexOf("package.json") !== -1) {
-      result = item;
+      results.push(item);
     }
   });
 
   payload.commits[payload.commits.length - 1].modified.filter(item => {
     if (item.indexOf("package.json") !== -1) {
-      result = item;
+      results.push(item);
     }
   });
 
-  return result;
+  return results.length === 0 ? false : results;
 };
 
 export const getPackagePath = async (
@@ -31,13 +31,16 @@ export const getPackagePath = async (
   const json = await getPackageJsonFile(payload);
 
   if (json && payload.after) {
-    return `${baseUrl}/${payload.repository.full_name}/${
-      payload.after
-    }/${json}`;
+    return json.map(
+      file =>
+        `${baseUrl}/${payload.repository.full_name}/${payload.after}/${file}`
+    );
   }
 
   if (json && payload.repositories) {
-    return `${baseUrl}/${payload.repositories[0].full_name}/master/${json}`;
+    return json.map(
+      file => `${baseUrl}/${payload.repositories[0].full_name}/master/${file}`
+    );
   }
 
   throw new Error(`No package.json file found`);
