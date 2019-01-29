@@ -1,5 +1,4 @@
 require = require("esm")(module); // eslint-disable-line no-global-assign
-
 const handleCreate = require("./handler").handleCreate;
 const handlePush = require("./handler").handlePush;
 const localCreatePayload = require("./handler").localCreatePayload;
