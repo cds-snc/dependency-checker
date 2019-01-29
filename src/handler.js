@@ -1,4 +1,5 @@
 import {
+  asyncForEach,
   getSuspicious,
   getRepoDependencies,
   loadPackages,
@@ -10,11 +11,6 @@ import {
 import { createWebhook } from "./__mocks__/createWebhook";
 import { pushWebhook } from "./__mocks__/pushWebhook";
 
-const asyncForEach = async (array, callback) => {
-  for (let index = 0; index < array.length; index++) {
-    await callback(array[index], index, array);
-  }
-};
 const repoName = event => {
   if (event.after) {
     return event.repository.full_name;
