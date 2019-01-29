@@ -5,6 +5,7 @@ const localCreatePayload = require("./handler").localCreatePayload;
 const localPushPayload = require("./handler").localPushPayload;
 
 const scanPackages = async (request, response) => {
+  console.log(request.headers);
   switch (request.headers["x-github-event"]) {
     case "create":
       await handleCreate(request);
