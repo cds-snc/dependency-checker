@@ -5,17 +5,19 @@ const localCreatePayload = require("./handler").localCreatePayload;
 const localPushPayload = require("./handler").localPushPayload;
 
 const scanPackages = async (request, response) => {
-  console.log(request.headers);
   switch (request.headers["x-github-event"]) {
     case "create":
-      await handleCreate(request);
+      console.log("Create");
+      await handleCreate(request.body);
       response.status(200).send("Processed create.");
       break;
     case "push":
-      await handlePush(request);
+      console.log("Push");
+      await handlePush(request.body);
       response.status(200).send("Processed push event request.");
       break;
     default:
+      console.log("Nothing");
       response.status(200).send("No action taken.");
       break;
   }
