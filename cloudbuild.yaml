@@ -2,10 +2,6 @@ steps:
   - name: "gcr.io/cloud-builders/yarn"
     id: "install"
     args: ["install"]
-  - name: "gcr.io/cloud-builders/yarn"
-    id: "test"
-    args: ["test"]
-    env: ["FIRESTORE_URL='abcd'", "GITHUB_PEM='github.pem'", "ISSUER_ID=abcd"]
   - name: "gcr.io/cloud-builders/gcloud"
     id: "decrypt firestore"
     args:
@@ -36,10 +32,14 @@ steps:
       - --location=global
       - --keyring=deploy
       - --key=github
+  - name: "gcr.io/cloud-builders/yarn"
+    waitFor: ["decrypt firestore", "decrypt .env", "decrypt github"]
+    id: "test"
+    args: ["test"]
   - name: "gcr.io/cloud-builders/gcloud"
     waitFor: ["decrypt firestore", "decrypt .env", "decrypt github"]
     entrypoint: "bash"
     args:
       - "-c"
       - |
-        if [[ "$BRANCH_NAME" != "master" ]]; then gcloud functions deploy scanPackages --runtime nodejs8 --memory=1024M --timeout=90s --trigger-http; else exit 0; fi
+        if [[ "$BRANCH_NAME" == "master" ]]; then gcloud functions deploy scanPackages --runtime nodejs8 --memory=1024M --timeout=90s --trigger-http; else exit 0; fi
