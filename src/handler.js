@@ -3,8 +3,10 @@ import {
   getRepoDependencies,
   loadPackages,
   savePackage,
-  createIssue
+  createIssue,
+  deleteCollection
 } from "./lib";
+
 import { createWebhook } from "./__mocks__/createWebhook";
 import { pushWebhook } from "./__mocks__/pushWebhook";
 
@@ -23,14 +25,24 @@ const repoName = event => {
   }
 };
 
+const clearCollection = async event => {
+  const name = event.repository.full_name;
+  const result = await deleteCollection(name, 100);
+  return result;
+};
+
 export const localCreatePayload = async () => {
   const event = await createWebhook;
-  return handleCreate(event);
+  const result = handleCreate(event);
+  await clearCollection(event);
+  return result;
 };
 
 export const localPushPayload = async () => {
   const event = await pushWebhook;
-  return handlePush(event);
+  const result = handlePush(event);
+  await clearCollection();
+  return result;
 };
 
 const createIssueMessage = (packageName, score = "") => {
