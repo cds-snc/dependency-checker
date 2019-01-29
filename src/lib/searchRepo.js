@@ -15,7 +15,7 @@ export const searchRepo = async (octokit, body) => {
     }
 
     return result.data.items.map(i => i.path);
-  } catch {
+  } catch (e) {
     console.log("Could not query repo");
     return false;
   }
