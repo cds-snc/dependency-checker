@@ -42,6 +42,7 @@ export const savePackage = async (name, p) => {
     .collection(repoName)
     .doc(p.name)
     .set(p);
+  return true;
 };
 
 export const deleteCollection = async (collectionPath, batchSize) => {
