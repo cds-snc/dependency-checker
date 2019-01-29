@@ -5,7 +5,7 @@ steps:
   - name: "gcr.io/cloud-builders/yarn"
     id: "test"
     args: ["test"]
-    env: ["FIRESTORE_URL='abcd'", "GITHUB_PEM='github.pem'", "ISSUER_ID=abcd"]
+    env: ["FIRESTORE_URL='abcde'", "GITHUB_PEM='github.pem'", "ISSUER_ID=abcd"]
   - name: "gcr.io/cloud-builders/gcloud"
     id: "decrypt firestore"
     args:
