@@ -41,7 +41,7 @@ export const localCreatePayload = async () => {
 export const localPushPayload = async () => {
   const event = await pushWebhook;
   const result = handlePush(event);
-  await clearCollection();
+  await clearCollection(event);
   return result;
 };
 
