@@ -13,6 +13,15 @@ const asyncForEach = async (array, callback) => {
     await callback(array[index], index, array);
   }
 };
+const repoName = event => {
+  if (event.after) {
+    return event.repository.full_name;
+  }
+
+  if (event.repositories) {
+    return event.repositories[0].full_name;
+  }
+};
 
 export const localCreatePayload = async () => {
   const event = await createWebhook;
@@ -34,12 +43,12 @@ const handleEvent = async event => {
   try {
     const packages = await getRepoDependencies(event);
     const suspicious = await getSuspicious(packages);
-    const existing = await loadPackages(event.repository.full_name);
+    const existing = await loadPackages(repoName(event));
     await asyncForEach(suspicious, async p => {
       if (!existing.includes(p.name)) {
-        await savePackage(event.repository.full_name, p);
+        await savePackage(repoName(event), p);
         await createIssue(event, {
-          title: `Suspicious package found ${p.name}`,
+          title: `Suspicious package found: ${p.name}`,
           body: createIssueMessage(p.name, p.score.final)
         });
       }
