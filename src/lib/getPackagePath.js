@@ -2,9 +2,8 @@ import { searchRepo } from "./searchRepo";
 import octokit from "./index";
 
 export const getPackageJsonFile = async (payload = {}) => {
-  if ((payload && !payload.commits) || (payload && !payload.commits.length)) {
-    const paths = await searchRepo(octokit, payload);
-    return paths.length !== 0 ? paths : false;
+  if (payload && !payload.commits) {
+    return searchRepo(octokit, payload);
   }
 
   let results = [];
@@ -21,7 +20,7 @@ export const getPackageJsonFile = async (payload = {}) => {
     }
   });
 
-  return results.length === 0 ? false : results;
+  return results;
 };
 
 export const getPackagePath = async (
@@ -30,18 +29,18 @@ export const getPackagePath = async (
 ) => {
   const json = await getPackageJsonFile(payload);
 
-  if (json && payload.after) {
+  if (payload.after) {
     return json.map(
       file =>
         `${baseUrl}/${payload.repository.full_name}/${payload.after}/${file}`
     );
   }
 
-  if (json && payload.repositories) {
+  if (payload.repositories) {
     return json.map(
       file => `${baseUrl}/${payload.repositories[0].full_name}/master/${file}`
     );
   }
 
-  throw new Error(`No package.json file found`);
+  return json;
 };
