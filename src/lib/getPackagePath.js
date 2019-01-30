@@ -1,9 +1,8 @@
 import { searchRepo } from "./searchRepo";
-import octokit from "./index";
 
 export const getPackageJsonFile = async (payload = {}) => {
   if ((payload && !payload.commits) || (payload && !payload.commits.length)) {
-    const paths = await searchRepo(octokit, payload);
+    const paths = await searchRepo(payload);
     return paths.length !== 0 ? paths : false;
   }
 

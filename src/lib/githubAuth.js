@@ -1,41 +1,33 @@
-import jsonwebtoken from "jsonwebtoken";
 import path from "path";
 import { getFile } from "./getFile";
+
+const App = require("@octokit/app");
+const Octokit = require("@octokit/rest");
 
 require("dotenv-safe").config({ allowEmptyValues: true });
 
 const GITHUB_PEM = process.env.GITHUB_PEM;
 const ISSUER_ID = process.env.ISSUER_ID;
 
-const generateJwtToken = async () => {
+const getKey = async () => {
   const file = path.resolve(__dirname, `../../${GITHUB_PEM}`);
-
   const result = await getFile(file);
-  return jsonwebtoken.sign(
-    {
-      iat: Math.floor(new Date() / 1000),
-      exp: Math.floor(new Date() / 1000) + 60,
-      iss: ISSUER_ID
-    },
-    result,
-    { algorithm: "RS256" }
-  );
+  return result;
 };
 
-export const authenticate = async (client, installationId) => {
-  const jwtToken = await generateJwtToken();
-
-  client.authenticate({
-    type: "app",
-    token: jwtToken
+export const authenticate = async installationId => {
+  const app = new App({
+    id: ISSUER_ID,
+    privateKey: await getKey()
   });
 
-  const {
-    data: { token }
-  } = await client.apps.createInstallationToken({
-    installation_id: installationId
+  const installationAccessToken = await app.getInstallationAccessToken({
+    installationId
   });
 
-  client.authenticate({ type: "token", token });
-  return client;
+  const octokit = new Octokit({
+    auth: `token ${installationAccessToken}`
+  });
+
+  return octokit;
 };
