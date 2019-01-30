@@ -1,12 +1,11 @@
 import { authenticate } from "./githubAuth";
-import octokit from "./index";
 
 export const createIssue = async (body, issue) => {
   const id = body.installation.id;
   const repoOwner = body.repository.owner.name;
   const repoName = body.repository.name;
 
-  const client = await authenticate(octokit, id);
+  const client = await authenticate(id);
 
   const issueObj = {
     owner: repoOwner,

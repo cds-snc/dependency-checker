@@ -1,10 +1,10 @@
 import { authenticate } from "./githubAuth";
 
-export const searchRepo = async (octokit, body) => {
+export const searchRepo = async body => {
   try {
     const id = body.installation.id;
     const name = body.repositories[0].full_name;
-    const client = await authenticate(octokit, id);
+    const client = await authenticate(id);
     const query = {
       q: `filename:package.json repo:${name}`
     };
