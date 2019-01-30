@@ -2,7 +2,7 @@ import { searchRepo } from "./searchRepo";
 
 export const getPackageJsonFile = async (payload = {}) => {
   if (payload && !payload.commits) {
-    return searchRepo(octokit, payload);
+    return searchRepo(payload);
   }
 
   let results = [];
