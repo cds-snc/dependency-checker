@@ -63,7 +63,7 @@ const handleEvent = async event => {
       }
     });
   } catch (e) {
-    console.log("handle event", e.message);
+    console.log(e.message);
   }
   return "done";
 };
