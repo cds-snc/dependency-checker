@@ -52,6 +52,7 @@ const handleEvent = async event => {
     const packages = await getRepoDependencies(event);
     const suspicious = await getSuspicious(packages);
     const existing = await loadPackages(repoName(event));
+
     await asyncForEach(suspicious, async p => {
       if (!existing.includes(p.name)) {
         await savePackage(repoName(event), p);

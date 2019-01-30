@@ -1,5 +1,4 @@
 import { searchRepo } from "./searchRepo";
-import octokit from "./index";
 
 export const getPackageJsonFile = async (payload = {}) => {
   if (payload && !payload.commits) {

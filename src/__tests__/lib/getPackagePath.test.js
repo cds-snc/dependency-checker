@@ -4,7 +4,7 @@ import { getPackagePath, getPackageJsonFile } from "../../lib/getPackagePath";
 import { searchRepo } from "../../lib/searchRepo";
 
 jest.mock("../../lib/searchRepo", () => ({
-  searchRepo: jest.fn(async (octokit, body) => {
+  searchRepo: jest.fn(async body => {
     return ["package.json", "subapp/package.json"];
   })
 }));
