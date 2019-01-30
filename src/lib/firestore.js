@@ -54,18 +54,16 @@ export const deleteCollection = async (collectionPath, batchSize) => {
   });
 };
 
-function deleteQueryBatch(db, query, batchSize, resolve, reject) {
+function deleteQueryBatch(db, query, resolve, reject) {
   try {
     return query
       .get()
       .then(snapshot => {
-        // When there are no documents left, we are done
         if (snapshot.size === 0) {
           console.log("all done");
           return 0;
         }
 
-        // Delete documents in a batch
         var batch = db.batch();
         snapshot.docs.forEach(doc => {
           batch.delete(doc.ref);
@@ -81,10 +79,8 @@ function deleteQueryBatch(db, query, batchSize, resolve, reject) {
           return;
         }
 
-        // Recurse on the next process tick, to avoid
-        // exploding the stack.
         process.nextTick(() => {
-          deleteQueryBatch(db, query, batchSize, resolve, reject);
+          deleteQueryBatch(db, query, resolve, reject);
         });
       });
   } catch (e) {
