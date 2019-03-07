@@ -1,5 +1,5 @@
 # Dependency checker
-[![Maintainability](https://api.codeclimate.com/v1/badges/88a373736a5d0cf45b55/maintainability)](https://codeclimate.com/github/cds-snc/dependency-checker/maintainability)
+[![Phase](https://img.shields.io/badge/Phase-Beta-22a7f0.svg)](https://digital.canada.ca/products/)  [![Maintainability](https://api.codeclimate.com/v1/badges/88a373736a5d0cf45b55/maintainability)](https://codeclimate.com/github/cds-snc/dependency-checker/maintainability)
 [![Known Vulnerabilities](https://snyk.io/test/github/cds-snc/dependency-checker/badge.svg)](https://snyk.io/test/github/cds-snc/dependency-checker)
 
 ### Purpose
