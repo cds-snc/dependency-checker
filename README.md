@@ -18,7 +18,7 @@ The dependency checker is a continuous integration tool that extracts all the ja
 
 The tool is built as a Google Cloud function that hooks into push events sent by GitHub. Any merges to master are automatically deployed after testing passes using Google's Cloud build service (check cloudbuild.yaml for more information). 
 
-When a push event it sent it checks to see if any `package.json` files have been added or modified. If they have, it extracts all the packages and runs them against the [https://npms.io/](https://npms.io/) API. Any packages returning a score less than **0.4** are flagged and compared to a list of previously flagged packages. If the package has not be flagged previously, the tool creates an issue in the repo for consideration and saves the package for the future inside a Google Firestore database. This ensures that the same package is not flagged twice.
+When a push event it sent it checks to see if any `package.json` files have been added or modified. If they have, it extracts all the packages and runs them against the [https://npms.io/](https://npms.io/) API. Any packages returning a score less than **0.4** are flagged and compared to a list of previously flagged packages. If the package has not been flagged previously, the tool creates an issue in the repo for consideration and saves the package for the future inside a Google Firestore database. This ensures that the same package is not flagged twice.
 
 ### Questions?
 
