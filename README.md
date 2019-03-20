@@ -8,7 +8,7 @@ The purpose of this tool is to check if any of the JavaScript dependencies in yo
 
 ### How do I use it?
 
-All you need to do is install the GitHub application found here: _Coming soon!_
+All you need to do is install the [GitHub application](https://github.com/apps/cds-snc-dependency-checker).
 
 ### Work flow
 
